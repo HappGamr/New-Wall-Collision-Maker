@@ -58,6 +58,7 @@ for _, i in pairs(gW:GetDescendants()) do
 	end
 end
 
-if script then
+--[[if script then
 	script:Destroy()
-end
+end]]
+
