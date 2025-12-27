@@ -3,124 +3,87 @@
 - This script creates new collisions for ‘walls’ if their thickness is below or equal to a certain vector, etc. You can run this script in the command bar, place it in a new script in ServerScriptService if you want it to run when the game is played, or do both if needed.
 
 AI Generated readme:
-# New Wall Collision Maker
+# Hap's New Wall Collision Maker
 
-[![Roblox](https://img.shields.io/badge/Roblox-Script-red.svg)](https://www.roblox.com/)
-[![Lua](https://img.shields.io/badge/Lua-2C2D72.svg?logo=lua)](https://www.lua.org/)
+[![Roblox](https://img.shields.io/badge/Roblox-Studio-red?logo=roblox)](https://www.roblox.com/)
+[![Lua](https://img.shields.io/badge/Lua-2C2D72?logo=lua&logoColor=white)](https://www.lua.org/)
 
-A simple **Roblox Studio** script that automatically generates improved invisible collision parts for thin walls and floors in your map.
+A simple Roblox Studio utility script that automatically creates invisible "collision extender" parts for thin walls to improve player collision reliability.
 
-### Purpose
+Thin walls (especially those ≤ 2.4 studs thick) in Roblox can sometimes cause players to clip through or get stuck due to physics engine quirks. This script detects thin, collidable, anchored parts that appear to be walls and adds slightly thicker invisible collision parts around them.
 
-In Roblox, very thin parts (e.g., walls thinner than ~2-3 studs) often cause unreliable player collisions — characters can clip through them, get stuck, or experience jittery movement. This is a common issue with detailed or low-poly builds.
+## ⚠️ Important Warning
 
-This script scans your `Workspace` for anchored, visible, collidable `BasePart`s that appear to be **thin walls/floors** (based on size and orientation), then creates **thicker invisible collision duplicates** placed exactly over them. These new parts ensure solid, consistent collisions without altering the visual appearance of your map.
+**Always save or create a backup of your place before running this script.**  
+Roblox Studio may freeze or become unresponsive while the script processes a large number of parts.
 
-The generated collisions are placed in a folder called `NewCollisionFolder` for easy management/deletion.
+## Features
 
-### How It Works
+- Detects thin walls based on size and orientation
+- Creates invisible, non-query, non-touch collision parts that are slightly thicker
+- Ignores decorative or non-wall parts (e.g., parts with ClickDetectors, Sounds, CylinderMeshes, etc.)
+- Only affects solid (Transparency = 0), collidable, anchored BaseParts
+- Skips very small parts (volume < 8.9 studs³)
+- Places all new collision parts in a folder called `NewCollisionFolder` in Workspace for easy management/cleanup
 
-- Ignores small parts (volume < ~9 studs³) and parts with certain children (e.g., ClickDetectors, Sounds).
-- Detects "thin" dimensions where one axis is the smallest and ≤ `thickness` (default: 2.4 studs).
-- Checks the part's orientation to determine if the thin axis acts as a wall (vertical-ish) or floor/ceiling.
-- Creates a cloned invisible part with:
-  - The thin dimension expanded to `thickness`.
-  - `Transparency = 1`
-  - `CanTouch = false`, `CanQuery = false`
-  - No children, no shadows, etc.
-- Allows a small `tilt` (default: 10°) for slightly angled walls.
+## How to Use
 
-### Usage
+### Option 1: Run Once in Command Bar (Recommended for testing)
 
-1. Open your place in **Roblox Studio**.
-2. Insert a **Script** (server-side, e.g., in `ServerScriptService` or `Workspace`).
-3. Paste the entire script code into it.
-4. Run the game (or Play Solo) — the script will execute once, create the `NewCollisionFolder`, and add the new collision parts.
-5. Stop the test, and you'll see the invisible parts in Workspace (select them to view outlines).
-6. Keep the folder for better collisions in your game, or delete it if you want to revert/regenerate.
+1. Open your place in Roblox Studio.
+2. Open the **Command Bar** (View → Command Bar).
+3. Paste the entire script into the command bar.
+4. Press Enter to execute.
 
-> **Note:** Run this whenever you add or modify thin walls in your map. It's designed to be safe to run multiple times (deletes old folder first).
+### Option 2: Run Automatically on Play
 
-### Script Code
+1. In ServerScriptService, create a new Script.
+2. Paste the script code into it.
+3. The script will run every time the game starts (in Play mode or on a live server).
+
+You can use both methods if desired.
+
+## Customization
+
+You can tweak these values at the top of the script:
 
 ```lua
-local gW = game.Workspace
-local NCF = gW:FindFirstChild("NewCollisionFolder")
-if NCF then
-	NCF:Destroy()
-end
-
-NCF = Instance.new("Folder")
-NCF.Name = "NewCollisionFolder"
-NCF.Parent = gW
-
-local tilt = 10          -- Maximum tilt angle (degrees) for detecting walls/floors
-local tiltA = 90 - tilt
-local tiltB = 180 - tilt
-local thickness = 2.4    -- Thickness for new collision parts
-
-for _, i in pairs(gW:GetDescendants()) do
-	if not i:FindFirstChildWhichIsA("ClickDetector") 
-		and not i:FindFirstChildWhichIsA("Sound") 
-		and not i:FindFirstChildWhichIsA("CylinderMesh") 
-		and i.Name ~= "NewCollision" 
-		and i.Name ~= "Charge" 
-		and i:IsA("BasePart") 
-		and i.Transparency == 0 
-		and i.CanCollide == true 
-		and i.Anchored == true 
-	then
-		
-		local SX = i.Size.X
-		local SY = i.Size.Y
-		local SZ = i.Size.Z
-		
-		if SX * SY * SZ >= 8.9 then
-			local function NewCollisionf(a, b, c)
-				local NewCollision = i:Clone()
-				NewCollision.Transparency = 1
-				NewCollision.Parent = NCF
-				NewCollision.CastShadow = false
-				NewCollision.EnableFluidForces = false
-				NewCollision.CanTouch = false
-				NewCollision.CanQuery = false
-				NewCollision.Name = "NewCollision"
-				NewCollision:ClearAllChildren()
-				NewCollision.Size = Vector3.new(a, b, c)
-			end
-			
-			local oriz = i.Orientation.Z
-			local absx = math.abs(i.Orientation.X)
-			local absz = math.abs(oriz)
-			
-			local minSize = math.min(SX, SY, SZ)
-			local msx = minSize == SX and SX ~= SY and SX ~= SZ and SX <= thickness
-			local msy = minSize == SY and SY ~= SX and SY ~= SZ and SY <= thickness
-			local msz = minSize == SZ and SZ ~= SX and SZ ~= SY and SZ <= thickness
-			
-			if msx and (oriz >= -tilt and oriz <= tilt or oriz >= -tiltB and oriz <= tiltB or oriz >= tiltB and oriz <= tiltB + 180) then  -- Simplified for horizontal thin walls
-				NewCollisionf(thickness, SY, SZ)
-			elseif msy and (absz <= 90 + tilt and absz >= tiltA or absx >= tiltA) then
-				NewCollisionf(SX, thickness, SZ)
-			elseif msz and absx <= tilt then
-				NewCollisionf(SX, SY, thickness)
-			end
-		end
-	end
-end
+local tilt = 10        -- Tolerance in degrees for wall orientation detection
+local thickness = 2.4  -- Maximum thickness considered "thin" and the new collision thickness
 ```
 
-### Customization
+- Lower `tilt` → stricter alignment required (walls must be more perfectly axis-aligned)
+- Higher `thickness` → more walls will get extended collisions
 
-- Adjust `tilt` for more/less lenient angled wall detection.
-- Change `thickness` to make collisions thicker (e.g., 3 or 4 for extra reliability).
-- Modify the volume check (`>= 8.9`) or ignored children as needed.
+## What the Script Does
 
-### Issues / Contributions
+1. Clears any existing `NewCollisionFolder`.
+2. Creates a new `NewCollisionFolder` in Workspace.
+3. Scans all descendants of Workspace.
+4. For qualifying thin walls:
+   - Clones the part
+   - Makes it fully transparent and disables shadows/fluid/touch/query
+   - Increases thickness in the thin dimension
+   - Names it "NewCollision" and parents it to the folder
 
-Feel free to fork and improve! Common enhancements could include:
-- Support for MeshParts/Unions
-- Automatic re-running on part changes
-- Better orientation detection
+## Cleanup
 
-Created by HappGamr 🚀
+To remove all generated collision parts:
+
+```lua
+game.Workspace:FindFirstChild("NewCollisionFolder"):Destroy()
+```
+
+Or simply delete the folder manually in Explorer.
+
+## Notes
+
+- The script self-destroys if placed as a Script (commented out by default).
+- Generated parts have `CanQuery = false` and `CanTouch = false` to avoid interfering with raycasts or touch events.
+- Works best on axis-aligned or near-axis-aligned walls.
+
+## License
+
+This script uses GNU General Public License v3.0
+
+Happy building! 🛠️
