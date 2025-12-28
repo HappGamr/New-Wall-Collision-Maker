@@ -6,7 +6,7 @@ AI Generated readme:
 # Hap's New Wall Collision Maker
 
 [![Roblox](https://img.shields.io/badge/Roblox-Studio-red?logo=roblox)](https://www.roblox.com/)
-[![Luau](https://luau.org/assets/images/luau-88.png)](https://www.luau.org/)
+[![Lua](https://img.shields.io/badge/Lua-2C2D72?logo=lua&logoColor=white)](https://www.lua.org/)
 
 A simple Roblox Studio utility script that automatically creates invisible "collision extender" parts for thin walls to improve player collision reliability.
 
