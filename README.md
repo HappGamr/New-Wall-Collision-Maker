@@ -10,7 +10,7 @@ AI Generated readme:
 
 A simple Roblox Studio utility script that automatically creates invisible "collision extender" parts for thin walls to improve player collision reliability.
 
-Thin walls (especially those ≤ 2.4 studs thick) in Roblox can sometimes cause players to clip through or get stuck due to physics engine quirks. This script detects thin, collidable, anchored parts that appear to be walls and adds slightly thicker invisible collision parts around them.
+This script detects thin, collidable, anchored parts that appear to be walls and adds slightly thicker invisible collision parts around them so that your arms doesn't go through the walls.
 
 ## ⚠️ Important Warning
 
