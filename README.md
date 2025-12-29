@@ -88,6 +88,6 @@ Or simply delete the folder manually in Explorer.
 
 ## License
 
-This script uses GNU General Public License v3.0
+This script uses [GNU General Public License v3.0](https://github.com/HappGamr/New-Wall-Collision-Maker/blob/main/LICENSE)
 
 Happy building! 🛠️
