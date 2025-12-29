@@ -42,8 +42,8 @@ Roblox Studio may freeze or become unresponsive while the script processes a lar
 2. Paste the script code into it.
 3. The script will run every time the game starts (in Play mode or on a live server).
 
-![BEFORE](https://cdn.discordapp.com/attachments/1454876197572837578/1455247900098429184/Screenshot_232.jpg?ex=695408b8&is=6952b738&hm=7185b8261685a4ff634017b24d5a96c99aaf4b1d0e85059058a2a99a49886052)
-![AFTER](https://cdn.discordapp.com/attachments/1454876197572837578/1455247900476051557/Screenshot_231.jpg?ex=695408b8&is=6952b738&hm=d00e306773ae5f7fbff289794d424fbc1aeae4155e211c1d3a52aafef6e2a334)
+BEFORE: ![BEFORE](https://cdn.discordapp.com/attachments/1454876197572837578/1455247900098429184/Screenshot_232.jpg?ex=695408b8&is=6952b738&hm=7185b8261685a4ff634017b24d5a96c99aaf4b1d0e85059058a2a99a49886052)
+AFTER: ![AFTER](https://cdn.discordapp.com/attachments/1454876197572837578/1455247900476051557/Screenshot_231.jpg?ex=695408b8&is=6952b738&hm=d00e306773ae5f7fbff289794d424fbc1aeae4155e211c1d3a52aafef6e2a334)
 
 You can use both methods if desired.
 
