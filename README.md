@@ -42,8 +42,8 @@ Roblox Studio may freeze or become unresponsive while the script processes a lar
 2. Paste the script code into it.
 3. The script will run every time the game starts (in Play mode or on a live server).
 
-BEFORE: ![BEFORE](https://imgur.com/a/ce8PsOi)
-AFTER: ![AFTER](https://imgur.com/a/95vodmv)
+BEFORE: ![BEFORE](https://i.imgur.com/wnRUDZ5.jpeg)
+AFTER: ![AFTER](https://i.imgur.com/HKHd2Hh.jpeg)
 
 You can use both methods if desired.
 
